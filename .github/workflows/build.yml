@@ -56,4 +56,14 @@ jobs:
             -lcitro2d -lcitro3d -lctru -lm -o miniarcade.elf
           BT=$(find bt -name bannertool -path '*linux*x86_64*' | head -1)
           MR=$(find mr -name makerom | head -1)
-          $BT makesmdh -s "Mini Arcade" -l "10 Spiele in einer App" -p "Mini Arcade" -i ic
+          ls -la icon.png banner.png silent.wav
+          $BT makesmdh -s MiniArcade -l MiniArcade -p ToastLinus -i icon.png -o icon.icn
+          $BT makebanner -i banner.png -a silent.wav -o banner.bnr
+          $MR -f cia -o MiniArcade.cia -elf miniarcade.elf -rsf app.rsf -icon icon.icn -banner banner.bnr -exefslogo -target t
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: Mini Arcade Build ${{ github.run_number }}
+          files: MiniArcade.cia
