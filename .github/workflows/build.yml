@@ -16,7 +16,7 @@ jobs:
           apt-get update && apt-get install -y python3 unzip wget
           wget -q -O mr.zip https://github.com/3DSGuy/Project_CTR/releases/download/makerom-v0.18.4/makerom-v0.18.4-ubuntu_x86_64.zip
           unzip -o mr.zip -d mr
-          wget -q -O bt.zip https://github.com/diasurgical/bannertool/releases/download/v1.2.0/bannertool.zip
+          wget -q -O bt.zip https://github.com/diasurgical/bannertool/releases/download/1.2.0/bannertool.zip
           unzip -o bt.zip -d bt
           chmod +x $(find mr -name makerom) $(find bt -name bannertool -path '*linux*x86_64*')
 
