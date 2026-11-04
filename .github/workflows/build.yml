@@ -46,20 +46,14 @@ jobs:
 
       - name: Bauen
         run: |
-          arm-none-eabi-gcc -O2 -march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft -mword-relocations -ffunction-sections -fomit-frame-pointer -D__3DS__ \
+          export DEVKITPRO=/opt/devkitpro
+          export DEVKITARM=/opt/devkitpro/devkitARM
+          export PATH=$PATH:/opt/devkitpro/devkitARM/bin:/opt/devkitpro/tools/bin
+          /opt/devkitpro/devkitARM/bin/arm-none-eabi-gcc -O2 -march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft -mword-relocations -ffunction-sections -fomit-frame-pointer -D__3DS__ \
             -I/opt/devkitpro/libctru/include -I/opt/devkitpro/portlibs/3ds/include \
             source/main.c -specs=3dsx.specs \
             -L/opt/devkitpro/libctru/lib -L/opt/devkitpro/portlibs/3ds/lib \
             -lcitro2d -lcitro3d -lctru -lm -o miniarcade.elf
           BT=$(find bt -name bannertool -path '*linux*x86_64*' | head -1)
           MR=$(find mr -name makerom | head -1)
-          $BT makesmdh -s "Mini Arcade" -l "10 Spiele in einer App" -p "Mini Arcade" -i icon.png -o icon.icn
-          $BT makebanner -i banner.png -a silent.wav -o banner.bnr
-          $MR -f cia -o MiniArcade.cia -elf miniarcade.elf -rsf app.rsf -icon icon.icn -banner banner.bnr -exefslogo -target t
-
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: build-${{ github.run_number }}
-          name: Mini Arcade Build ${{ github.run_number }}
-          files: MiniArcade.cia
+          $BT makesmdh -s "Mini Arcade" -l "10 Spiele in einer App" -p "Mini Arcade" -i ic
